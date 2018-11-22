@@ -21,3 +21,18 @@ COPY config/php.ini /usr/local/etc/php
 
 # add git
 RUN apk add --no-cache --virtual git
+
+# add zookeeper
+RUN apk add --no-cache --virtual alpine-sdk
+RUN apk add --no-cache --virtual autoconf
+
+ENV ZOOKEEPER_VERSION="3.4.12"
+ENV ZOOKEEPER_PHP_EXT_VERSION="0.5.0"
+
+RUN curl https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-$ZOOKEEPER_VERSION/zookeeper-$ZOOKEEPER_VERSION.tar.gz | tar xvz -C /tmp \
+    && curl https://pecl.php.net/get/zookeeper-$ZOOKEEPER_PHP_EXT_VERSION.tgz | tar xvz -C /tmp
+
+RUN cd /tmp/zookeeper-3.4.12/src/c \
+    && ./configure && make && make install \
+    && cd /tmp/zookeeper-0.5.0 \
+    && phpize && ./configure --with-php-config=$(which php-config) --with-libzookeeper-dir=/usr/local && make && make install
