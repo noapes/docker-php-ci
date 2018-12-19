@@ -1,4 +1,4 @@
-FROM php:7-alpine
+FROM php:7.1-alpine
 
 # For PDO MySQL
 RUN docker-php-ext-install pdo pdo_mysql
@@ -21,7 +21,10 @@ COPY config/php.ini /usr/local/etc/php
 
 # add git
 RUN apk add --no-cache --virtual git
-
+# add php-openssl extension
+#RUN apk add --no-cache --virtual 
+# add php-mongodb extension
+RUN apk add --no-cache --virtual php7-mongodb
 # add zookeeper
 RUN apk add --no-cache --virtual alpine-sdk
 RUN apk add --no-cache --virtual autoconf
