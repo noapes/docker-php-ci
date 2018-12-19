@@ -22,7 +22,7 @@ COPY config/php.ini /usr/local/etc/php
 # add git
 RUN apk add --no-cache --virtual git
 # add php-openssl extension
-#RUN apk add --no-cache --virtual 
+RUN apk add --no-cache --virtual php7-openssl
 # add php-mongodb extension
 RUN apk add --no-cache --virtual php7-mongodb
 # add zookeeper
